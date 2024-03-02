@@ -1,3 +1,3 @@
 # master
 
-An Accounting Book app
+An Accounting Book app.
