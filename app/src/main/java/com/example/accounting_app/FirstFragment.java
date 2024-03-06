@@ -49,6 +49,24 @@ public class FirstFragment extends Fragment { //////////////////////
             }
         });
 
+        //按下 setting 切換介面
+        binding.setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(FirstFragment.this)
+                        .navigate(R.id.action_FirstFragment_to_SettingFragment);////////////////////////////////////
+            }
+        });
+
+        //按下 addbill 切換介面
+        binding.AddBill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(FirstFragment.this)
+                        .navigate(R.id.action_FirstFragment_to_AddbillFragment);////////////////////////////////////
+            }
+        });
+
 
     }
 

@@ -11,31 +11,46 @@
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_first">
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
-        <action
             android:id="@+id/action_FirstFragment_to_ThirdFragment"
             app:destination="@id/ThirdFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_SettingFragment"
+            app:destination="@id/SettingFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_AddbillFragment"
+            app:destination="@id/AddbillFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
         android:name="com.example.accounting_app.SecondFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
-        <action
-            android:id="@+id/action_SecondFragment_to_ThirdFragment"
-            app:destination="@id/ThirdFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_second"/>
     <fragment
         android:id="@+id/ThirdFragment"
         android:name="com.example.accounting_app.ThirdFragment"
         android:label="@string/third_fragment_label"
         tools:layout="@layout/fragment_third">
         <action
-            android:id="@+id/action_ThirdFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
-        <action
             android:id="@+id/action_ThirdFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/SettingFragment"
+        android:name="com.example.accounting_app.SettingFragment"
+        android:label="@string/setting_fragment_label"
+        tools:layout="@layout/fragment_setting">
+        <action
+            android:id="@+id/action_SettingFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/AddbillFragment"
+        android:name="com.example.accounting_app.AddbillFragment"
+        android:label="@string/addbill_fragment_label"
+        tools:layout="@layout/fragment_addbill">
+        <action
+            android:id="@+id/action_AddbillFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
 </navigation>
