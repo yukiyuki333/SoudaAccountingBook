@@ -12,11 +12,20 @@ import android.view.ViewGroup;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.accounting_app.databinding.FragmentFirstBinding;
-import com.example.accounting_app.databinding.FragmentThirdBinding;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.time.Month;
 import java.util.Calendar;
+import android.content.Context;
+
+
 
 public class FirstFragment extends Fragment { //////////////////////
 
@@ -41,31 +50,68 @@ public class FirstFragment extends Fragment { //////////////////////
         getAndSetDate();
 
         //按下fun_list切換頁面
-        binding.funList.setOnClickListener(new View.OnClickListener() {
+        /*binding.funList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(FirstFragment.this)
                         .navigate(R.id.action_FirstFragment_to_ThirdFragment);////////////////////////////////////
             }
-        });
-
-        //按下 setting 切換介面
-        binding.setting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_SettingFragment);////////////////////////////////////
-            }
-        });
+        });*/
 
         //按下 addbill 切換介面
-        binding.AddBill.setOnClickListener(new View.OnClickListener() {
+        /*binding.AddBill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(FirstFragment.this)
                         .navigate(R.id.action_FirstFragment_to_AddbillFragment);////////////////////////////////////
             }
+        });*/
+
+        //按下 setting 切換介面
+        /*binding.setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(FirstFragment.this)
+                        .navigate(R.id.action_FirstFragment_to_SettingFragment);////////////////////////////////////
+            }
+        });*/
+
+
+        binding.funList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String filename="/data/data/com.example.accounting_app/billRecord.txt";
+                File saveFile=new File(filename);
+                if(saveFile.delete()){
+                    System.out.println("Deleted");
+                }
+                else{
+                    System.out.println("Delete fail");
+                }
+            }
         });
+        binding.AddBill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try{
+                    storeBillInfo();
+                }catch(FileNotFoundException e){
+                    e.printStackTrace();
+                }
+
+            }
+        });
+        binding.setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    readBill();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
 
 
     }
@@ -95,6 +141,66 @@ public class FirstFragment extends Fragment { //////////////////////
         dateFormatForSet+=MonthToday;
         binding.Month.setText(dateFormatForSet);
 
+    }
+
+
+    //存資料，此函式之後要移去新增 bill 的頁面
+    private void storeBillInfo() throws FileNotFoundException {
+        String filename="/data/data/com.example.accounting_app/billRecord.txt";
+        //create file
+        File saveBill=new File(filename);
+        if(!saveBill.exists()){
+            try{
+                saveBill.createNewFile();
+                System.out.println("Create success");
+            }catch(IOException e){
+                e.printStackTrace();
+                System.out.println("Fuck");
+            }
+        }
+
+        //read file
+        FileInputStream billInfo=new FileInputStream(saveBill);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(billInfo));
+        String BillList="";
+        try{
+            String line;
+            while((line=reader.readLine())!=null){
+                BillList+=(line+"\n");
+                //System.out.println(line);
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+
+        //write file
+        FileOutputStream writeBill=new FileOutputStream(saveBill);
+        try{
+            BillList+="test\n";
+            writeBill.write(BillList.getBytes());
+            writeBill.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+
+
+    }
+
+    //Read file
+    private void readBill() throws FileNotFoundException {
+        String filename="/data/data/com.example.accounting_app/billRecord.txt";
+        File saveBill=new File(filename);
+        //read file
+        FileInputStream billInfo=new FileInputStream(saveBill);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(billInfo));
+        try{
+            String line;
+            while((line=reader.readLine())!=null){
+                System.out.println(line);
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
