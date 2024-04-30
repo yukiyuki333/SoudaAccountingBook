@@ -59,13 +59,13 @@ public class FirstFragment extends Fragment { //////////////////////
         });*/
 
         //按下 addbill 切換介面
-        /*binding.AddBill.setOnClickListener(new View.OnClickListener() {
+        binding.AddBill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(FirstFragment.this)
                         .navigate(R.id.action_FirstFragment_to_AddbillFragment);////////////////////////////////////
             }
-        });*/
+        });
 
         //按下 setting 切換介面
         /*binding.setting.setOnClickListener(new View.OnClickListener() {
@@ -90,17 +90,7 @@ public class FirstFragment extends Fragment { //////////////////////
                 }
             }
         });
-        binding.AddBill.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try{
-                    storeBillInfo();
-                }catch(FileNotFoundException e){
-                    e.printStackTrace();
-                }
 
-            }
-        });
         binding.setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,47 +134,7 @@ public class FirstFragment extends Fragment { //////////////////////
     }
 
 
-    //存資料，此函式之後要移去新增 bill 的頁面
-    private void storeBillInfo() throws FileNotFoundException {
-        String filename="/data/data/com.example.accounting_app/billRecord.txt";
-        //create file
-        File saveBill=new File(filename);
-        if(!saveBill.exists()){
-            try{
-                saveBill.createNewFile();
-                System.out.println("Create success");
-            }catch(IOException e){
-                e.printStackTrace();
-                System.out.println("Fuck");
-            }
-        }
 
-        //read file
-        FileInputStream billInfo=new FileInputStream(saveBill);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(billInfo));
-        String BillList="";
-        try{
-            String line;
-            while((line=reader.readLine())!=null){
-                BillList+=(line+"\n");
-                //System.out.println(line);
-            }
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-
-        //write file
-        FileOutputStream writeBill=new FileOutputStream(saveBill);
-        try{
-            BillList+="test\n";
-            writeBill.write(BillList.getBytes());
-            writeBill.close();
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-
-
-    }
 
     //Read file
     private void readBill() throws FileNotFoundException {
