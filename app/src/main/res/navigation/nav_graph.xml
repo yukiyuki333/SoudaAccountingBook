@@ -21,11 +21,6 @@
             app:destination="@id/AddbillFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.example.accounting_app.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second"/>
-    <fragment
         android:id="@+id/ThirdFragment"
         android:name="com.example.accounting_app.ThirdFragment"
         android:label="@string/third_fragment_label"

@@ -27,9 +27,9 @@ import android.content.Context;
 
 
 
-public class FirstFragment extends Fragment { //////////////////////
+public class FirstFragment extends Fragment {
 
-    private FragmentFirstBinding binding;  ////////////////////////////
+    private FragmentFirstBinding binding;
     private String YearToday=new String("");
     private String MonthToday=new String("");
     private String DayToday=new String("");
@@ -39,7 +39,7 @@ public class FirstFragment extends Fragment { //////////////////////
             Bundle savedInstanceState
     ) {
 
-        binding = FragmentFirstBinding.inflate(inflater,container,false); /////////////////////////
+        binding = FragmentFirstBinding.inflate(inflater,container,false);
         return binding.getRoot();
 
     }
@@ -50,34 +50,34 @@ public class FirstFragment extends Fragment { //////////////////////
         getAndSetDate();
 
         //按下fun_list切換頁面
-        /*binding.funList.setOnClickListener(new View.OnClickListener() {
+        binding.funList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_ThirdFragment);////////////////////////////////////
+                        .navigate(R.id.action_FirstFragment_to_ThirdFragment);
             }
-        });*/
+        });
 
         //按下 addbill 切換介面
         binding.AddBill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_AddbillFragment);////////////////////////////////////
+                        .navigate(R.id.action_FirstFragment_to_AddbillFragment);
             }
         });
 
         //按下 setting 切換介面
-        /*binding.setting.setOnClickListener(new View.OnClickListener() {
+        binding.setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_SettingFragment);////////////////////////////////////
+                        .navigate(R.id.action_FirstFragment_to_SettingFragment);
             }
-        });*/
+        });
 
 
-        binding.funList.setOnClickListener(new View.OnClickListener() {
+        /*binding.funList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String filename="/data/data/com.example.accounting_app/billRecord.txt";
@@ -89,9 +89,9 @@ public class FirstFragment extends Fragment { //////////////////////
                     System.out.println("Delete fail");
                 }
             }
-        });
+        });*/
 
-        binding.setting.setOnClickListener(new View.OnClickListener() {
+        /*binding.setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
@@ -100,7 +100,7 @@ public class FirstFragment extends Fragment { //////////////////////
                     e.printStackTrace();
                 }
             }
-        });
+        });*/
 
 
 

@@ -25,7 +25,9 @@ public class AddbillFragment extends Fragment {
     private FragmentAddbillBinding binding;
     DatePickerDialog.OnDateSetListener datePicker;
     Calendar calendar =Calendar.getInstance();
-    billDatabase billdb;//2024/4/30新增
+    billDatabase billdb;
+    String DateOfThisBill,InOrOutOfThisBill,TagOfThisBill,PsOfThisBill;
+    int MoneyOfThisBill;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -40,6 +42,15 @@ public class AddbillFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //回主畫面
+        binding.backTomain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(AddbillFragment.this)
+                        .navigate(R.id.action_AddbillFragment_to_FirstFragment);
+            }
+        });
+
         //日期設定
         binding.date.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -52,12 +63,14 @@ public class AddbillFragment extends Fragment {
             @Override
             public void onClick(View view){
                 binding.outcome.setChecked(false);
+                InOrOutOfThisBill="Income";
             }
         });
         binding.outcome.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 binding.income.setChecked(false);
+                InOrOutOfThisBill="Outcome";
             }
         });
         //儲存
@@ -67,11 +80,14 @@ public class AddbillFragment extends Fragment {
             @Override
             public void onClick(View view){
                 //存資料
-                billdb.insertItem("2024/05/03","Out","TestTag",500,"TestPs");//2024/4/30新增
-                billdb.showItem();//2024/4/30新增
-                System.out.println("showItem Success");
+                MoneyOfThisBill=Integer.parseInt(binding.money.getText().toString());
+                //Tag施工中
+                TagOfThisBill="default";
+                PsOfThisBill=binding.inputPS.getText().toString();
+                billdb.insertItem(DateOfThisBill,InOrOutOfThisBill,TagOfThisBill,MoneyOfThisBill,PsOfThisBill);
+                //billdb.showItem();
                 NavHostFragment.findNavController(AddbillFragment.this)
-                        .navigate(R.id.action_AddbillFragment_to_FirstFragment);//////////////////////////////////
+                        .navigate(R.id.action_AddbillFragment_to_FirstFragment);
             }
 
         });
@@ -88,6 +104,7 @@ public class AddbillFragment extends Fragment {
                 String dateFormat="yyyy/MM/dd";
                 SimpleDateFormat sdf=new SimpleDateFormat(dateFormat, Locale.TAIWAN);
                 binding.date.setText(sdf.format(calendar.getTime()));
+                DateOfThisBill=sdf.format(calendar.getTime());
             }
         };
         DatePickerDialog dialog=new DatePickerDialog(getContext(),

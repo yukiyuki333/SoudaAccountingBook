@@ -81,6 +81,9 @@ public class billDatabase extends SQLiteOpenHelper{
         cursor.close();
         db.close();
     }
+    public void deleteItem(){
+
+    }
 }
 //資料庫名 billDatabase，表格名 BillsList
 
