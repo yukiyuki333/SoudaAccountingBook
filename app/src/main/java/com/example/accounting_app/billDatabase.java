@@ -5,6 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import com.example.accounting_app.arrayListDef;
+
 public class billDatabase extends SQLiteOpenHelper{
     private static final String DataBaseName="bill.db";
     private static final int DataBaseVer=1;
@@ -60,9 +63,10 @@ public class billDatabase extends SQLiteOpenHelper{
 
     }
 
-    public void showItem(){
+    public ArrayList<arrayListDef> showItem(){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + "BillsList", null);
+        ArrayList<arrayListDef> BillsForReturnToFirstFeg = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
                 //取得內容
@@ -73,20 +77,22 @@ public class billDatabase extends SQLiteOpenHelper{
                 double money = cursor.getDouble(4);
                 String ps = cursor.getString(5);
 
+                BillsForReturnToFirstFeg.add(new arrayListDef(id,date,inOrOut,tag,money,ps));
                 // 輸出
-                System.out.println("ID: " + id + ", Date: " + date + ", In/Out: " + inOrOut + ", Tag: " + tag + ", Money: " + money + ", Ps: " + ps);
+                //System.out.println("ID: " + id + ", Date: " + date + ", In/Out: " + inOrOut + ", Tag: " + tag + ", Money: " + money + ", Ps: " + ps);
             } while (cursor.moveToNext());
         }
 
         cursor.close();
-        db.close();
+        return BillsForReturnToFirstFeg;
     }
+
     public void deleteItem(){
 
     }
 }
 //資料庫名 billDatabase，表格名 BillsList
-
+//格式：ID、日期、收支、tag、金額、備註
 //新增、刪除、edit 項目
 //主頁要讀取資料庫+顯示
 //bill頁要新增
