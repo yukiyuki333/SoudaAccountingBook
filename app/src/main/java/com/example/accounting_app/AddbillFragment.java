@@ -3,20 +3,21 @@ package com.example.accounting_app;
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.accounting_app.databinding.FragmentAddbillBinding;
 
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import com.example.accounting_app.billDatabase; //2024/4/30新增
@@ -85,7 +86,7 @@ public class AddbillFragment extends Fragment {
                 TagOfThisBill="default";
                 PsOfThisBill=binding.inputPS.getText().toString();
                 billdb.insertItem(DateOfThisBill,InOrOutOfThisBill,TagOfThisBill,MoneyOfThisBill,PsOfThisBill);
-                //billdb.showItem();
+                //ArrayList<arrayListDef> test=billdb.showItem();
                 NavHostFragment.findNavController(AddbillFragment.this)
                         .navigate(R.id.action_AddbillFragment_to_FirstFragment);
             }

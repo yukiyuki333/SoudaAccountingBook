@@ -2,9 +2,9 @@ package com.example.accounting_app;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,31 +77,6 @@ public class FirstFragment extends Fragment {
         });
 
 
-        /*binding.funList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String filename="/data/data/com.example.accounting_app/billRecord.txt";
-                File saveFile=new File(filename);
-                if(saveFile.delete()){
-                    System.out.println("Deleted");
-                }
-                else{
-                    System.out.println("Delete fail");
-                }
-            }
-        });*/
-
-        /*binding.setting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    readBill();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        });*/
-
 
 
     }
@@ -136,22 +111,6 @@ public class FirstFragment extends Fragment {
 
 
 
-    //Read file
-    private void readBill() throws FileNotFoundException {
-        String filename="/data/data/com.example.accounting_app/billRecord.txt";
-        File saveBill=new File(filename);
-        //read file
-        FileInputStream billInfo=new FileInputStream(saveBill);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(billInfo));
-        try{
-            String line;
-            while((line=reader.readLine())!=null){
-                System.out.println(line);
-            }
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void onDestroyView() {

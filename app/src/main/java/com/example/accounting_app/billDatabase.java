@@ -78,8 +78,6 @@ public class billDatabase extends SQLiteOpenHelper{
                 String ps = cursor.getString(5);
 
                 BillsForReturnToFirstFeg.add(new arrayListDef(id,date,inOrOut,tag,money,ps));
-                // 輸出
-                //System.out.println("ID: " + id + ", Date: " + date + ", In/Out: " + inOrOut + ", Tag: " + tag + ", Money: " + money + ", Ps: " + ps);
             } while (cursor.moveToNext());
         }
 

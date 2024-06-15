@@ -28,22 +28,22 @@ public class arrayListDef {
         this.ps=ps;
     }
     //get parameters
-    public long getId(long id){
+    public long getId(){
         return this.id;
     }
-    public String getDate(String date){
+    public String getDate(){
         return this.date;
     }
-    public String getInOrOut(String inOrOut){
+    public String getInOrOut(){
         return this.inOrOut;
     }
-    public String getTag(String tag){
+    public String getTag(){
         return this.tag;
     }
-    public double getMoney(double money){
+    public double getMoney(){
         return this.money;
     }
-    public String getPs(String ps){
+    public String getPs(){
         return this.ps;
     }
 
