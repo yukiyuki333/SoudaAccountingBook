@@ -2,7 +2,10 @@ package com.example.accounting_app;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +27,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // creating variables for our text views.
         private TextView Day, ps_text, WhatTag, HowMouchMoney;
 
-        public MyViewHolder(View itemView) {
+        public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             // initializing our text views
             Day = itemView.findViewById(R.id.Day);
@@ -34,18 +37,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
+    @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // on below line we are inflating our layout
         // file for our recycler view items.
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_the_bill_in_frg1, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_the_bill_in_frg1, null, false);
         return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         // on below line we are setting data
         // to our views of recycler view item.
+        Log.d("RecyclerViewAdapter", "position: " + position);
         arrayListDef ThisBill = RecieveTheBillFromDB.get(position);
         holder.Day.setText(ThisBill.getDate());
         holder.ps_text.setText(ThisBill.getPs());

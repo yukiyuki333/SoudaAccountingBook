@@ -108,20 +108,83 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <LinearLayout
+        android:id="@+id/LinearLayoutV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="62dp"
+        android:orientation="vertical"
+        android:padding="3dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/LinearLayoutH"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <TextView
+                android:id="@+id/Day"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="日期"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/ps_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="備註"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/WhatTag"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="標籤"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/HowMouchMoney"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="金額"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/RecycleV"
-        android:layout_width="409dp"
-        android:layout_height="604dp"
-        android:layout_marginTop="62dp"
+        android:layout_width="411dp"
+        android:layout_height="501dp"
+        android:layout_marginTop="100dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:context=".ViewCourses">
 
         <!--recycler view for displaying our courses-->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/idRVCourses"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:id="@+id/idRVBills"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" />
 
     </RelativeLayout>
 

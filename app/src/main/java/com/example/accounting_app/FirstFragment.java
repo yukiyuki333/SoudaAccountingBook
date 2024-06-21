@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.accounting_app.databinding.FragmentFirstBinding;
 
@@ -22,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.Calendar;
 import android.content.Context;
 
@@ -33,6 +37,11 @@ public class FirstFragment extends Fragment {
     private String YearToday=new String("");
     private String MonthToday=new String("");
     private String DayToday=new String("");
+    private billDatabase billdb;
+    private ArrayList<arrayListDef> BillsFromDB;
+    private RecyclerViewAdapter RVA;
+    private RecyclerView billRV;
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -76,7 +85,7 @@ public class FirstFragment extends Fragment {
             }
         });
 
-
+        ListBillOfThisMonth();
 
 
     }
@@ -108,9 +117,22 @@ public class FirstFragment extends Fragment {
 
     }
 
+    private void ListBillOfThisMonth(){
+        //show bill variables
+        BillsFromDB=new ArrayList<>();
+        billdb=new billDatabase(getContext());
+        //get bills
+        BillsFromDB=billdb.showItem();
+        //BillsFromDB 傳給 RecyclerViewAdapter
+        RVA=new RecyclerViewAdapter(BillsFromDB,getContext());
+        billRV=binding.idRVBills;
+        //幫 RecyclerView 設定 layout manager
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        billRV.setLayoutManager(linearLayoutManager);
+        // setting our adapter to recycler view.
+        billRV.setAdapter(RVA);
 
-
-
+    }
 
     @Override
     public void onDestroyView() {
@@ -119,3 +141,6 @@ public class FirstFragment extends Fragment {
     }
 
 }
+
+
+
