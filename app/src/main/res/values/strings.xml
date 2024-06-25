@@ -6,6 +6,7 @@
     <string name="third_fragment_label">Third Fragment</string>
     <string name="setting_fragment_label">Setting Fragment</string>
     <string name="addbill_fragment_label">Addbill Fragment</string>
+    <string name="single_bill_info_label">SingleBillInfo Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 

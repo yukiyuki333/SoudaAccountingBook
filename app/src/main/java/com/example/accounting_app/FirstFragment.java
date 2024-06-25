@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -131,6 +133,24 @@ public class FirstFragment extends Fragment {
         billRV.setLayoutManager(linearLayoutManager);
         // setting our adapter to recycler view.
         billRV.setAdapter(RVA);
+        RVA.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                arrayListDef sendToInfoPage=BillsFromDB.get(position);
+                SingleBillInfoFragment singleBill=new SingleBillInfoFragment();
+                Bundle bundle = new Bundle();
+                bundle.putLong("Id", sendToInfoPage.getId());
+                bundle.putString("Date", sendToInfoPage.getDate());
+                bundle.putString("InOrOut", sendToInfoPage.getInOrOut());
+                bundle.putString("Tag", sendToInfoPage.getTag());
+                bundle.putDouble("Money", sendToInfoPage.getMoney());
+                bundle.putString("Ps", sendToInfoPage.getPs());
+                singleBill.setArguments(bundle);
+                NavHostFragment.findNavController(FirstFragment.this)
+                        .navigate(R.id.action_FirstFragment_to_SingleBillInfoFragment,bundle);
+
+            }
+        });
 
     }
 

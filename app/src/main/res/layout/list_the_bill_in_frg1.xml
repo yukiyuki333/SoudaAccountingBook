@@ -30,12 +30,12 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/ps_text"
+                android:id="@+id/inorout_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="備註"
+                android:text="收支"
                 android:textSize="24sp" />
 
             <TextView

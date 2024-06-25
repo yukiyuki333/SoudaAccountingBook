@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_AddbillFragment"
             app:destination="@id/AddbillFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_SingleBillInfoFragment"
+            app:destination="@id/SingleBillInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/ThirdFragment"
@@ -46,6 +49,16 @@
         tools:layout="@layout/fragment_addbill">
         <action
             android:id="@+id/action_AddbillFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/SingleBillInfoFragment"
+        android:name="com.example.accounting_app.SingleBillInfoFragment"
+        android:label="@string/single_bill_info_label"
+        tools:layout="@layout/fragment_single_bill_info">
+        <action
+            android:id="@+id/action_SingleBillInfoFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
 </navigation>
