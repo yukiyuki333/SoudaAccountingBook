@@ -138,7 +138,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/CuteSouda1"
+        android:id="@+id/CuteSoudaE"
         android:layout_width="157dp"
         android:layout_height="139dp"
         android:layout_marginStart="20dp"
@@ -159,7 +159,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/CuteSouda2"
+        android:id="@+id/CuteSoudaD"
         android:layout_width="158dp"
         android:layout_height="139dp"
         android:layout_marginTop="540dp"

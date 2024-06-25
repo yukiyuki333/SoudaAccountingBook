@@ -85,7 +85,10 @@ public class billDatabase extends SQLiteOpenHelper{
         return BillsForReturnToFirstFeg;
     }
 
-    public void deleteItem(){
+    public void deleteItem(long idToDelete){
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.delete("BillsList","_id = ?",new String[]{String.valueOf(idToDelete)});
+        db.close();
 
     }
 }

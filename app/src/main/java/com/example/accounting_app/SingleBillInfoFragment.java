@@ -16,6 +16,8 @@ public class SingleBillInfoFragment extends Fragment {
 
     private FragmentSingleBillInfoBinding binding;
     Bundle bundle;
+    long billID;
+    billDatabase db;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -39,6 +41,13 @@ public class SingleBillInfoFragment extends Fragment {
                         .navigate(R.id.action_SingleBillInfoFragment_to_FirstFragment);
             }
         });
+        //刪除帳單
+        binding.CuteSoudaD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickDeleteBill();
+            }
+        });
 
 
 
@@ -47,13 +56,20 @@ public class SingleBillInfoFragment extends Fragment {
     private void showInfo(){
         bundle = getArguments();
         if(bundle!=null){
-            long billID=bundle.getLong("Id");
+            billID=bundle.getLong("Id");
             binding.InfoDate.setText(bundle.getString("Date"));
             binding.Infoinorout.setText(bundle.getString("InOrOut"));
             binding.Infotag.setText(bundle.getString("Tag"));
             binding.Infomoney.setText(String.valueOf(bundle.getDouble("Money")));
             binding.InfoPs.setText(bundle.getString("Ps"));
         }
+    }
+
+    private void clickDeleteBill(){
+        db=new billDatabase(getContext());
+        db.deleteItem(billID);
+        NavHostFragment.findNavController(SingleBillInfoFragment.this)
+                .navigate(R.id.action_SingleBillInfoFragment_to_FirstFragment);
     }
 
     @Override
