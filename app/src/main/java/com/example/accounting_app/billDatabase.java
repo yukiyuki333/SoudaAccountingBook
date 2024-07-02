@@ -50,7 +50,7 @@ public class billDatabase extends SQLiteOpenHelper{
     }
 
 
-    public void updateItem(String Id, String newDate,String newInorout,String newTag,double newMoney,String newPs){
+    public void updateItem(long Id, String newDate,String newInorout,String newTag,double newMoney,String newPs){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("Date",newDate);
@@ -58,7 +58,7 @@ public class billDatabase extends SQLiteOpenHelper{
         values.put("Tag",newTag);
         values.put("Money",newMoney);
         values.put("Ps",newPs);
-        db.update("BillsList",values,"id=?", new String[]{String.valueOf(Id)});
+        db.update("BillsList",values,"_id=?", new String[]{String.valueOf(Id)});
         db.close();
 
     }

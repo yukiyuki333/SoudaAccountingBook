@@ -28,7 +28,7 @@ public class AddbillFragment extends Fragment {
     Calendar calendar =Calendar.getInstance();
     billDatabase billdb;
     String DateOfThisBill,InOrOutOfThisBill,TagOfThisBill,PsOfThisBill;
-    int MoneyOfThisBill;
+    double MoneyOfThisBill;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -81,7 +81,7 @@ public class AddbillFragment extends Fragment {
             @Override
             public void onClick(View view){
                 //存資料
-                MoneyOfThisBill=Integer.parseInt(binding.money.getText().toString());
+                MoneyOfThisBill=Double.parseDouble(binding.money.getText().toString());
                 //Tag施工中
                 TagOfThisBill="default";
                 PsOfThisBill=binding.inputPS.getText().toString();
@@ -125,3 +125,7 @@ public class AddbillFragment extends Fragment {
         binding = null;
     }
 }
+
+//待辦事項
+// 加入有欄位為空的異常處理
+// 加入日期/金額輸入不是日期/數字的異常處理
