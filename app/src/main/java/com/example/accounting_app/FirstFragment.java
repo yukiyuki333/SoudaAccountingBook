@@ -43,6 +43,7 @@ public class FirstFragment extends Fragment {
     private ArrayList<arrayListDef> BillsFromDB;
     private RecyclerViewAdapter RVA;
     private RecyclerView billRV;
+    private String YYYY_MM="";
 
     @Override
     public View onCreateView(
@@ -111,6 +112,7 @@ public class FirstFragment extends Fragment {
         for(int i=8;i<10;i++){
             DayToday +=todayDate.charAt(i);
         }
+        YYYY_MM=YearToday+"_"+MonthToday;
         //設定日期顯示
         String dateFormatForSet=new String("");
         dateFormatForSet+=(YearToday+"/");
@@ -124,7 +126,11 @@ public class FirstFragment extends Fragment {
         BillsFromDB=new ArrayList<>();
         billdb=new billDatabase(getContext());
         //get bills
-        BillsFromDB=billdb.showItem();
+        String tableName="Bill_"+YYYY_MM;
+        if(!billdb.isTableExists(tableName)){
+            billdb.createNewTable(tableName);
+        }
+        BillsFromDB=billdb.showItem(tableName);
         //BillsFromDB 傳給 RecyclerViewAdapter
         RVA=new RecyclerViewAdapter(BillsFromDB,getContext());
         billRV=binding.idRVBills;

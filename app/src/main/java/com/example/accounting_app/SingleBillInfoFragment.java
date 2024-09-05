@@ -23,6 +23,7 @@ public class SingleBillInfoFragment extends Fragment {
     private FragmentSingleBillInfoBinding binding;
     Bundle bundle;
     long billID;
+    String OriginDate="";
     billDatabase db;
     boolean editionMode;
     //日期選擇相關變數
@@ -141,7 +142,10 @@ public class SingleBillInfoFragment extends Fragment {
         bundle = getArguments();
         if(bundle!=null){
             billID=bundle.getLong("Id");
-            binding.InfoDate.setText(bundle.getString("Date"));
+            String tmpDate=bundle.getString("Date");
+            binding.InfoDate.setText(tmpDate);
+            //紀錄原始的 Date，藉以找到它屬於哪個表格
+            OriginDate=getDateInTableNameFormat(tmpDate);
             if(bundle.getString("InOrOut").equals("Outcome")){
                 binding.Infooutcome.setChecked(true);
                 binding.Infoincome.setChecked(false);
@@ -157,7 +161,10 @@ public class SingleBillInfoFragment extends Fragment {
     }
 
     private void clickDeleteBill(){
-        db.deleteItem(billID);
+        String tableName="Bill_";
+        tableName+=OriginDate;
+        //Log.d("SingleBill",tableName);
+        db.deleteItem(tableName,billID);
         NavHostFragment.findNavController(SingleBillInfoFragment.this)
                 .navigate(R.id.action_SingleBillInfoFragment_to_FirstFragment);
     }
@@ -213,7 +220,24 @@ public class SingleBillInfoFragment extends Fragment {
         String newTag=binding.Infotag.getText().toString();
         double newMoney=Double.parseDouble(binding.Infomoney.getText().toString());
         String newPs=binding.InfoPs.getText().toString();
-        db.updateItem(billID,newDate,newInorOut,newTag,newMoney,newPs);//Bug
+
+        //看更改後的日期是不是同個月，是->直接更新，不是->刪除，並插入對應表格，對應表格不存在就創一個
+        String tmpDate;
+        tmpDate=getDateInTableNameFormat(newDate);
+        String tableName="Bill_";
+        tableName+=tmpDate;
+        if(tmpDate==OriginDate){
+            db.updateItem(tableName,billID,newDate,newInorOut,newTag,newMoney,newPs);//Bug
+        }
+        else{
+            String OriTableName="Bill_"+OriginDate;
+            db.deleteItem(OriTableName,billID);
+            if(!db.isTableExists(tableName)){
+                db.createNewTable(tableName);
+            }
+            db.insertItem(tableName,newDate,newInorOut,newTag,newMoney,newPs);
+        }
+
     }
 
     private void clickDateText(){
@@ -235,6 +259,20 @@ public class SingleBillInfoFragment extends Fragment {
                 calendar.get(Calendar.DAY_OF_MONTH));
         dialog.show();
     }
+
+    private String getDateInTableNameFormat(String Date){
+        String tmpDate="";
+        for(int i=0;i<7;i++) {
+            if(Date.charAt(i)=='/'){
+                tmpDate+="_";
+            }
+            else{
+                tmpDate+=Date.charAt(i);
+            }
+        }
+        return tmpDate;
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

@@ -36,36 +36,60 @@ public class billDatabase extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // 有要新增或刪除資料庫欄位時使用
     }
-    public void insertItem(String newDate,String newInorout,String newTag,double newMoney,String newPs){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("Date",newDate);
-        values.put("inOrout",newInorout);
-        values.put("Tag",newTag);
-        values.put("Money",newMoney);
-        values.put("Ps",newPs);
-        db.insert("BillsList",null,values);
-        db.close();
 
+    //Dynamic創建新表格
+    public void createNewTable(String tableName){
+        //tableName遵守以下格式：Bill_YYYY_MM
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Bill="CREATE TABLE "+tableName+" ("
+                +"_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                +"Date Text,"
+                +"inOrout Text,"
+                +"Tag Text,"
+                +"Money Real,"
+                +"Ps Text" +" )";
+        db.execSQL(Bill);
     }
 
-
-    public void updateItem(long Id, String newDate,String newInorout,String newTag,double newMoney,String newPs){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("Date",newDate);
-        values.put("inOrout",newInorout);
-        values.put("Tag",newTag);
-        values.put("Money",newMoney);
-        values.put("Ps",newPs);
-        db.update("BillsList",values,"_id=?", new String[]{String.valueOf(Id)});
-        db.close();
-
-    }
-
-    public ArrayList<arrayListDef> showItem(){
+    //判斷對應表格是否存在
+    public boolean isTableExists(String tableName) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + "BillsList", null);
+        Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name=?", new String[]{tableName});
+        boolean tableExists = cursor.getCount() > 0;
+        cursor.close();
+        return tableExists;
+    }
+
+    public void insertItem(String tableName,String newDate,String newInorout,String newTag,double newMoney,String newPs){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Date",newDate);
+        values.put("inOrout",newInorout);
+        values.put("Tag",newTag);
+        values.put("Money",newMoney);
+        values.put("Ps",newPs);
+        db.insert(tableName,null,values);
+        db.close();
+
+    }
+
+
+    public void updateItem(String tableName,long Id, String newDate,String newInorout,String newTag,double newMoney,String newPs){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Date",newDate);
+        values.put("inOrout",newInorout);
+        values.put("Tag",newTag);
+        values.put("Money",newMoney);
+        values.put("Ps",newPs);
+        db.update(tableName,values,"_id=?", new String[]{String.valueOf(Id)});
+        db.close();
+
+    }
+
+    public ArrayList<arrayListDef> showItem(String tableName){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + tableName, null);
         ArrayList<arrayListDef> BillsForReturnToFirstFeg = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
@@ -85,9 +109,9 @@ public class billDatabase extends SQLiteOpenHelper{
         return BillsForReturnToFirstFeg;
     }
 
-    public void deleteItem(long idToDelete){
+    public void deleteItem(String tableName,long idToDelete){
         SQLiteDatabase db = this.getReadableDatabase();
-        db.delete("BillsList","_id = ?",new String[]{String.valueOf(idToDelete)});
+        db.delete(tableName,"_id = ?",new String[]{String.valueOf(idToDelete)});
         db.close();
 
     }

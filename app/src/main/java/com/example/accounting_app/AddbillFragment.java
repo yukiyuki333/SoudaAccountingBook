@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,7 @@ public class AddbillFragment extends Fragment {
     DatePickerDialog.OnDateSetListener datePicker;
     Calendar calendar =Calendar.getInstance();
     billDatabase billdb;
-    String DateOfThisBill,InOrOutOfThisBill,TagOfThisBill,PsOfThisBill;
+    String DateOfThisBill,InOrOutOfThisBill,TagOfThisBill,PsOfThisBill,Year_Month;
     double MoneyOfThisBill;
     @Override
     public View onCreateView(
@@ -85,7 +86,10 @@ public class AddbillFragment extends Fragment {
                 //Tag施工中
                 TagOfThisBill="default";
                 PsOfThisBill=binding.inputPS.getText().toString();
-                billdb.insertItem(DateOfThisBill,InOrOutOfThisBill,TagOfThisBill,MoneyOfThisBill,PsOfThisBill);
+                //決定資料庫表格
+                String tableName="Bill_";
+                tableName+=Year_Month;
+                billdb.insertItem(tableName,DateOfThisBill,InOrOutOfThisBill,TagOfThisBill,MoneyOfThisBill,PsOfThisBill);
                 //ArrayList<arrayListDef> test=billdb.showItem();
                 NavHostFragment.findNavController(AddbillFragment.this)
                         .navigate(R.id.action_AddbillFragment_to_FirstFragment);
@@ -106,6 +110,12 @@ public class AddbillFragment extends Fragment {
                 SimpleDateFormat sdf=new SimpleDateFormat(dateFormat, Locale.TAIWAN);
                 binding.date.setText(sdf.format(calendar.getTime()));
                 DateOfThisBill=sdf.format(calendar.getTime());
+
+                //yyyy_MM
+                String Year_Month_Format="yyyy_MM";
+                SimpleDateFormat YMFormat=new SimpleDateFormat(Year_Month_Format, Locale.TAIWAN);
+                Year_Month=YMFormat.format(calendar.getTime());
+
             }
         };
         DatePickerDialog dialog=new DatePickerDialog(getContext(),
