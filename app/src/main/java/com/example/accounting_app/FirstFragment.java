@@ -1,5 +1,6 @@
 package com.example.accounting_app;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -29,8 +30,10 @@ import java.text.SimpleDateFormat;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Calendar;
-import android.content.Context;
+import java.util.Locale;
 
+import android.content.Context;
+import android.widget.DatePicker;
 
 
 public class FirstFragment extends Fragment {
@@ -44,6 +47,8 @@ public class FirstFragment extends Fragment {
     private RecyclerViewAdapter RVA;
     private RecyclerView billRV;
     private String YYYY_MM="";
+    private DatePickerDialog.OnDateSetListener datePicker;
+    private Calendar calendar =Calendar.getInstance();
 
     @Override
     public View onCreateView(
@@ -60,6 +65,9 @@ public class FirstFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //設定顯示日期
         getAndSetDate();
+        //show bill variables
+        BillsFromDB=new ArrayList<>();
+        billdb=new billDatabase(getContext());
 
         //按下fun_list切換頁面
         binding.funList.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +97,30 @@ public class FirstFragment extends Fragment {
         });
 
         ListBillOfThisMonth();
+
+        //按左右按鈕切換月份
+        binding.Leftarrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPrevMonth();
+            }
+        });
+
+        binding.Rightarrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showNextMonth();
+            }
+        });
+
+        //按日期處切換月份
+        binding.Month.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ChangeDate();
+            }
+        });
+
 
 
     }
@@ -121,10 +153,66 @@ public class FirstFragment extends Fragment {
 
     }
 
+    private void showPrevMonth(){
+        int tmp0=Integer.parseInt(MonthToday);
+        if(tmp0==1){
+            int tmp=Integer.parseInt(YearToday);
+            if(tmp>1000){
+                //年分>=0
+                tmp--;
+                YearToday=String.valueOf(tmp);
+            }
+            tmp0=12;
+        }
+        else{
+            tmp0--;
+        }
+        if(tmp0<10){
+            MonthToday="0"+String.valueOf(tmp0);
+        }
+        else{
+            MonthToday=String.valueOf(tmp0);
+        }
+        YYYY_MM=YearToday+"_"+MonthToday;
+        //設定日期顯示
+        String dateFormatForSet=new String("");
+        dateFormatForSet+=(YearToday+"/");
+        dateFormatForSet+=MonthToday;
+        binding.Month.setText(dateFormatForSet);
+
+        ListBillOfThisMonth();
+    }
+
+    private void showNextMonth(){
+        int tmp0=Integer.parseInt(MonthToday);
+        if(tmp0==12){
+            int tmp=Integer.parseInt(YearToday);
+            if(tmp<9999){
+                tmp++;
+                YearToday=String.valueOf(tmp);
+            }
+            tmp0=1;
+        }
+        else{
+            tmp0++;
+        }
+        if(tmp0<10){
+            MonthToday="0"+String.valueOf(tmp0);
+        }
+        else{
+            MonthToday=String.valueOf(tmp0);
+        }
+        YYYY_MM=YearToday+"_"+MonthToday;
+        //設定日期顯示
+        String dateFormatForSet=new String("");
+        dateFormatForSet+=(YearToday+"/");
+        dateFormatForSet+=MonthToday;
+        binding.Month.setText(dateFormatForSet);
+
+        ListBillOfThisMonth();
+    }
+
     private void ListBillOfThisMonth(){
-        //show bill variables
-        BillsFromDB=new ArrayList<>();
-        billdb=new billDatabase(getContext());
         //get bills
         String tableName="Bill_"+YYYY_MM;
         if(!billdb.isTableExists(tableName)){
@@ -160,6 +248,44 @@ public class FirstFragment extends Fragment {
 
     }
 
+    //選擇日期切換月份
+    private void ChangeDate(){
+        datePicker=new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                calendar.set(Calendar.YEAR,year);
+                calendar.set(Calendar.MONTH,monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+                String dateFormat="yyyy/MM";
+                SimpleDateFormat sdf=new SimpleDateFormat(dateFormat, Locale.TAIWAN);
+                String DateToShow=sdf.format(calendar.getTime());
+                binding.Month.setText(DateToShow);
+                //更改一些變數值
+                String tmpY="",tmpM="";
+                for(int i=0;i<4;i++){
+                    tmpY+=DateToShow.charAt(i);
+                }
+                for(int i=5;i<7;i++){
+                    tmpM+=DateToShow.charAt(i);
+                }
+                YearToday=tmpY;
+                MonthToday=tmpM;
+                YYYY_MM=YearToday+"_"+MonthToday;
+                Log.d("First",YearToday+" "+MonthToday+" "+YYYY_MM);
+
+                ListBillOfThisMonth();
+            }
+        };
+        DatePickerDialog dialog=new DatePickerDialog(getContext(),
+                datePicker,
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH));
+        dialog.show();
+    }
+
+
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -167,6 +293,4 @@ public class FirstFragment extends Fragment {
     }
 
 }
-
-
 
